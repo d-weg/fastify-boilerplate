@@ -1,0 +1,11 @@
+name: fastify-boilerplate
+main: infra/
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: fastify-boilerplate
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: gcp-typescript
