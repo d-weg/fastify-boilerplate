@@ -8,7 +8,7 @@
       "outDir": "./dist/src",
       "rootDir": "./src",
       "resolveJsonModule": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
     },
     "lib": ["es2022"],
     "exclude": ["./infra"]

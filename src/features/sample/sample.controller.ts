@@ -1,14 +1,21 @@
 import { FastifyPluginCallback } from "fastify";
-import { BaseRequest } from "../../schemas/Request";
+import { mySchema } from "../../schemas/Request";
+
+
+export interface ContextConfigDefault {
+    customProperty: any
+}
+
 
 const plugin: FastifyPluginCallback = (app, opts, next) => {
-    app.post<BaseRequest>("/", {
+    app.post<never, ContextConfigDefault>("/", {
         config: {
-            public: true
-        }
+            customProperty: true
+        },
+        schema: { body: mySchema.schema }
     }, async (req, res) => {
-      
-     
+
+
         return {
         }
 
@@ -17,7 +24,7 @@ const plugin: FastifyPluginCallback = (app, opts, next) => {
     next();
 };
 
-export const webhookRouter = {
+export const sampleRouter = {
     config: { prefix: "/sample" },
     plugin,
 };
