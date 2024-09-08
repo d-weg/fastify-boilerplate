@@ -9,10 +9,10 @@ export const app = fastify({
   logger: true
 });
 
-const teste = async () => {
+const setup = async () => {
   app.register(swagger)
   app.register(require('@fastify/swagger-ui'), {
-    routePrefix: '/documentation',
+    routePrefix: '/v1/documentation',
     uiConfig: {
       docExpansion: 'full',
       deepLinking: false
@@ -22,8 +22,6 @@ const teste = async () => {
       preHandler: function (request, reply, next) { next() }
     },
     staticCSP: true,
-    transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
     transformSpecificationClone: true
   })
   app.register(helmet)
@@ -32,5 +30,4 @@ const teste = async () => {
 
 }
 
-
-teste()
+setup()

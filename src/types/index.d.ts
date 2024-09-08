@@ -1,11 +1,18 @@
-import 'fastify'
+import { ContextConfigDefault } from "fastify";
 
-declare module 'fastify' {
-    export interface ContextConfigDefault {
-        customProperty: boolean
+
+export interface BaseRequest<Body = {}, Params = {}> extends FastifyRequest {
+    Headers:  {
+        'x-api-key': string
     }
-
+    Body
+    Params?
 }
-interface CustomPluginConfig {
-    customProperty: boolean
+
+export interface PublicRoute extends ContextConfigDefault {
+    isPublic: true
+}
+
+export interface PrivateRoute extends ContextConfigDefault {
+    isPublic?: false
 }

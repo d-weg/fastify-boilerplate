@@ -1,18 +1,23 @@
 import { FastifyPluginCallback } from "fastify";
-import { mySchema } from "../../schemas/Request";
-
-
-export interface ContextConfigDefault {
-    customProperty: any
-}
+import { SampleRequest, sampleBody } from "./sample.schema";
+import { PublicRoute } from "../../types";
 
 
 const plugin: FastifyPluginCallback = (app, opts, next) => {
-    app.post<never, ContextConfigDefault>("/", {
+    app.post<SampleRequest, PublicRoute>("/", {
         config: {
-            customProperty: true
+            isPublic: true
         },
-        schema: { body: mySchema.schema }
+        schema: { body: sampleBody.schema }
+    }, async (req, res) => {
+
+
+        return {
+        }
+
+    })
+    app.post<SampleRequest>("/a", {
+        schema: { body: sampleBody.schema }
     }, async (req, res) => {
 
 
