@@ -1,33 +1,43 @@
 import fastify from "fastify";
-import { sampleRouter } from "./features/sample/sample.controller";
 import helmet from "@fastify/helmet";
-import swagger from '@fastify/swagger'
+import swagger from "@fastify/swagger";
+import swaggerUI from "@fastify/swagger-ui";
+import cors from "@fastify/cors";
 
+import * as hooks from "./hooks/onRequest";
+
+import * as Routers from "./features";
 
 export const app = fastify({
   requestTimeout: 3000,
-  logger: true
+  logger: true,
 });
 
 const setup = async () => {
-  app.register(swagger)
-  app.register(require('@fastify/swagger-ui'), {
-    routePrefix: '/v1/documentation',
-    uiConfig: {
-      docExpansion: 'full',
-      deepLinking: false
+  app.register(swagger, {
+    openapi: {
+      info: {
+        title: "Trench Hub",
+        version: "1.0",
+      },
     },
-    uiHooks: {
-      onRequest: function (request, reply, next) { next() },
-      preHandler: function (request, reply, next) { next() }
+  });
+  app.register(swaggerUI, {
+    routePrefix: "documentation",
+    uiConfig: {
+      docExpansion: "full",
+      deepLinking: false,
     },
     staticCSP: true,
-    transformSpecificationClone: true
-  })
-  app.register(helmet)
-  app.register(sampleRouter.plugin, sampleRouter.config);
-  await app.ready()
+    transformSpecificationClone: true,
+  });
+  app.register(cors);
+  app.register(helmet);
+  app.addHook("onRequest", hooks.verifyAuthAndRole);
+  app.addHook("onRequest", hooks.userValidationMiddleware);
+  app.register(...Routers.sampleRouter);
 
-}
+  await app.ready();
+};
 
-setup()
+setup();
