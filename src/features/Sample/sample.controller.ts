@@ -7,7 +7,9 @@ const plugin: FastifyPluginCallback = (app, opts, next) => {
     {
       schema: { tags: ["Sample"] },
     },
-    async (req: PrivateRequest, res) => {}
+    async (req: PrivateRequest, res) => {
+      console.log("req.user");
+    }
   );
 
   next();
