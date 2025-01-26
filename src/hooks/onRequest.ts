@@ -27,6 +27,4 @@ export const verifyAuthAndRole = (
 export const userValidationMiddleware = async (
   request: CustomFastifyRequest,
   reply: FastifyReply
-) => {
-  const { user } = request.context;
-};
+) => {};
